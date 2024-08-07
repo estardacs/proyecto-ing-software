@@ -1,0 +1,55 @@
+<%= render 'layouts/navbar' %>
+<div class="has-text-centered mb-6">
+  <h1 class="title has-text-primary is-size-1" style="margin-top: 60px;">Notificaciones</h1>
+</div>
+<div class="container">
+  <div class="columns">
+    <div class="column is-half">
+      <% if @notifications.any? %>
+        <div class="notification-container" style="max-height: 700px; overflow-y: auto;">
+          <div class="notification-list">
+            <% @notifications.each do |notification| %>
+              <div class="notification" data-notification-id="<%= notification.id %>">
+                <button class="delete" onclick="markAsRead(this)"></button>
+                <%= notification.message %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="notification is-info">
+          No tienes notificaciones.
+        </div>
+      <% end %>
+    </div>
+    <div class="column is-half">
+      <figure class="image is-16by9" style="margin-top: 20%; margin-left: 10%; width: 120%; height: auto;">
+        <%= image_tag(asset_path('notis.gif'), alt: "Descripción de la imagen", style: "width: 100%; height: auto; border: 1px solid black") %>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<script>
+  function markAsRead(button) {
+    var notification = button.parentNode;
+    var notificationId = notification.getAttribute('data-notification-id');
+
+    fetch('/notifications/' + notificationId + '/mark_as_read', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      }
+    })
+    .then(function(response) {
+      if (response.ok) {
+        notification.classList.add('fade-out');
+        
+        setTimeout(function() {
+          notification.remove();
+        }, 500);
+      }
+    });
+  }
+</script>

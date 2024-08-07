@@ -1,0 +1,208 @@
+<%= render 'layouts/navbar' %>
+<h1 class="title has-text-primary is-size-1" style="margin-top: 60px; text-align: center; z-index: 100;">Editar Perfil</h1>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-one-third" style="margin-top: 100px;">
+        <%= form_with(model: @user, url: update_perfil_path, method: :patch, local: true) do |form| %>
+          <% if @user.errors.any? %>
+            <div id="error_explanation" class="notification is-danger">
+              <p class="subtitle is-6"><strong><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</strong></p>
+              <ul>
+                <% @user.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="field" style="margin-top: -100px">
+            <%= form.label :nombre_usuario, "Nombre de usuario", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.text_field :nombre_usuario, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :descripcion, "Descripción", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.text_area :descripcion, class: "textarea" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :image, "Foto de Perfil:", class: "label has-text-weight-bold has-text-primary" %>
+          </div>
+
+          <div class="has-text-centered">
+            <label id="upload-btn" class="button is-primary" for="user_image">Subir foto</label>
+            <span id="file-name" class="file-name"></span>
+          </div>
+
+
+          <div class="has-text-centered" style="margin-bottom: 20px">
+            <div class="control">
+              <img id="preview-image" src="<%= asset_path('placeholder.png') %>" alt="Vista previa" style="width: 400px; height: 400px; object-fit: cover; border: 1px solid black;">
+            </div>
+          </div>
+
+          <%= form.file_field :image, class: "input", id: "user_image", style: "display: none;" %>
+
+          <div class="has-text-centered mb-1">
+            <div class="control">
+              <button id="toggle-photo-btn" class="button is-primary" type="button">Tomar foto</button>
+            </div>
+          </div>
+
+          <div id="camera-container" style="display: none;">
+            <video id="video" width="640" height="480" autoplay></video>
+            <div class="has-text-centered">
+              <button id="capture-btn" class="button is-primary" type="button">Capturar foto</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :genero, "Género", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <div class="select">
+                <%= form.select :genero, options_for_select(["Hombre", "Mujer", "Otros"], @user.genero), {}, class: "input" %>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <%= form.label :current_password, "Contraseña actual", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.password_field :current_password, autocomplete: "current-password", class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :password, "Nueva contraseña", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.password_field :password, autocomplete: "new-password", class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :password_confirmation, "Confirmar nueva contraseña", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "input" %>
+            </div>
+          </div>
+
+          <div class="field is-grouped" style="margin-top: 20px; margin-left: 80px;">
+            <div class="control">
+              <%= form.submit "Guardar cambios", class: "button is-primary mr-5" %>
+            </div>
+            <div class="control">
+              <%= link_to 'Cancelar', pages_perfil_path, class: "button is-primary", style: "background-color: #cd4e57" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="column is-two-thirds">
+        <div class="centered">
+          <figure class="image" style="margin-top: 20%; margin-left: 15%;">
+            <%= image_tag(asset_path('edit_perfil.gif'), alt: "Descripción de la imagen", style: "width: 80%; height: auto; border: 1px solid black;") %>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const togglePhotoBtn = document.getElementById('toggle-photo-btn');
+    const cameraContainer = document.getElementById('camera-container');
+    const videoElement = document.getElementById('video');
+    const captureBtn = document.getElementById('capture-btn');
+    const photoInput = document.getElementById('user_image');
+    const avatarInput = document.getElementById('user_avatar');
+    const avatarFileNameSpan = document.getElementById('avatar-file-name');
+    const fileNameSpan = document.getElementById('file-name');
+    const previewImage = document.getElementById('preview-image');
+
+    togglePhotoBtn.addEventListener('click', function() {
+      if (cameraContainer.style.display === 'none') {
+        cameraContainer.style.display = 'block';
+        togglePhotoBtn.textContent = 'Subir foto';
+        startCamera();
+      } else {
+        cameraContainer.style.display = 'none';
+        togglePhotoBtn.textContent = 'Tomar foto';
+        stopCamera();
+      }
+    });
+
+    function startCamera() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+          videoElement.srcObject = stream;
+        })
+        .catch(function(error) {
+          console.error('Error al acceder a la cámara:', error);
+        });
+    }
+
+    function stopCamera() {
+      const stream = videoElement.srcObject;
+      if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(function(track) {
+          track.stop();
+        });
+      }
+      videoElement.srcObject = null;
+    }
+
+    captureBtn.addEventListener('click', function() {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
+      canvas.getContext('2d').drawImage(videoElement, 0, 0);
+
+      canvas.toBlob(function(blob) {
+        const file = new File([blob], 'photo.png', { type: 'image/png' });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        photoInput.files = dataTransfer.files;
+
+        // Mostrar la vista previa de la foto capturada
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        stopCamera();
+        cameraContainer.style.display = 'none';
+        togglePhotoBtn.textContent = 'Tomar foto';
+      });
+    });
+
+    photoInput.addEventListener('change', function() {
+      const file = photoInput.files[0];
+      if (file) {
+        fileNameSpan.textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        fileNameSpan.textContent = '';
+        previewImage.src = '<%= asset_path('placeholder.png') %>';
+      }
+    });
+
+    avatarInput.addEventListener('change', function() {
+      const file = avatarInput.files[0];
+      if (file) {
+        avatarFileNameSpan.textContent = file.name;
+      } else {
+        avatarFileNameSpan.textContent = '';
+      }
+    });
+  });
+</script>

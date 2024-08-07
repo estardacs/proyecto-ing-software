@@ -1,0 +1,183 @@
+<%= render 'layouts/navbar' %>
+<div class="has-text-centered mb-6">
+  <h1 class="title has-text-primary is-size-1" style="margin-top: 60px;">Guía de Usuario</h1>
+</div>
+<div class="container" style="width: 55%; max-height: 75%; overflow-y: auto;">
+
+  <section>
+    <h2 class="title is-size-4">• Perfil</h2>
+    <div class="box guia">
+      <p>Para ver tu perfil, haz clic en el botón "Perfil" en la barra de navegación o en tu imagen de perfil en la parte superior izquierda de la web.</p>
+      <p>En tu perfil, verás una Dino-Tarjeta con la siguiente información:</p>
+      <ul>
+        <li>- Nombre de Usuario</li>
+        <li>- Número de Alumno ingresado</li>
+        <li>- Tu correo</li>
+        <li>- Tu género</li>
+        <li>- Tu descripción</li>
+        <li>- Tu rating (inicialmente en 0.0)</li>
+      </ul> 
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia1.png'), alt: "Descripción de la imagen", style: "width: 60%; height: auto;border: 1px solid black") %>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Rating</h2>
+    <div class="box guia">
+      <p>El rating varía según el puntaje que te den otros usuarios en las Reviews, con un mínimo de 1 y un máximo de 10.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Editar Perfil</h2>
+    <div class="box guia">
+      <p>Aquí podrás realizar cambios en tu perfil, como:</p>
+      <ul>
+        <li>- Nombre de usuario</li>
+        <li>- Descripción</li>
+        <li>- Foto de perfil</li>
+        <li>- Contraseña</li>
+        <li>- Género</li>
+      </ul>
+      <p>Para que los cambios sean efectuados en tu perfil tendrás que ingresar tu contraseña en "Contraseña Actual".</p>
+      <p>Al finalizar, haz clic en "Guardar Cambios" para guardar los cambios o en "Cancelar" para descartarlos.</p>
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia2.png'), alt: "Descripción de la imagen", style: "width: 50%; height: auto;border: 1px solid black") %>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Dino-Tarjeta</h2>
+    <div class="box guia">
+      <p>Esta tarjeta contiene toda la información necesaria para que otros usuarios te conozcan. Sirve como tu tarjeta de presentación.</p>
+      <p>Sugerencia: Coloca una foto de perfil en la que los usuarios puedan reconocerte en los viajes.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Mascotas</h2>
+    <div class="box guia">
+      <p>Al final de tu perfil, verás un dinosaurio caminando que irá cambiando según tu rating. ¡Sube tu rating para conocer a todos los dinosaurios disponibles!</p>
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia3.png'), alt: "Descripción de la imagen", style: "width: 60%; height: auto;border: 1px solid black") %>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Buscar</h2>
+    <div class="box guia">
+      <p>Para buscar un viaje, utiliza el botón "Buscar" en la parte superior de la página.</p>
+      <p>Podrás filtrar por:</p>
+      <ul>
+        <li>- Tipo de Viaje</li>
+        <li>- Disponibilidad de auto</li>
+        <li>- Comuna</li>
+        <li>- Género de preferencia</li>
+        <li>- Campus</li>
+        <li>- Fecha</li>
+      </ul>
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia4.png'), alt: "Descripción de la imagen", style: "width: 80%; height: auto;border: 1px solid black") %>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Inscripción a un Viaje</h2>
+    <div class="box guia">
+      <p>Para inscribirte a un viaje, haz clic en el botón "Suscribirme" al final de la publicación.</p>
+      <p>Una vez suscrito, podrás ver un mensaje que indica "Ya estás suscrito a este post."</p>
+      <p>Si deseas desuscribirte, haz clic en "Botar Viaje".</p>
+      <p>Para ver el mapa de referencia de la ruta del viaje, pulsa el botón "Ver mapa".</p>
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia5.png'), alt: "Descripción de la imagen", style: "width: 50%; height: auto;border: 1px solid black") %>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Review o Reseña</h2>
+    <div class="box guia">
+      <p>Para ingresar a las reviews, pulsa el botón "Reviews" en la barra de navegación.</p>
+      <p>Puedes buscar reviews de un usuario por su nombre de usuario o crear una nueva review en "Crear nueva review".</p>
+      <p>Al crear una review, podrás ingresar:</p>
+      <ul>
+        <li>- Nombre de usuario válido</li>
+        <li>- Comentario sobre el usuario</li>
+        <li>- Rating del 1 al 10</li>
+      </ul>
+      <p>Una vez conforme con la review, haz clic en "Crear Review".</p>
+      <p>Podrás buscar tus propias reviews y tendrás la opción de eliminarlas o editarlas.</p>
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia6.png'), alt: "Descripción de la imagen", style: "width: 80%; height: auto;border: 1px solid black") %>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Post</h2>
+    <div class="box guia">
+      <p>Para ver tus viajes creados o publicar un nuevo viaje, haz clic en el botón "Posts" en la barra de navegación.</p>
+      <p>Al crear un nuevo post, deberás ingresar:</p>
+      <ul>
+        <li>- Preferencia de género</li>
+        <li>- Fecha del viaje</li>
+        <li>- Campus de salida o llegada</li>
+        <li>- Hora de partida</li>
+        <li>- Número de cupos</li>
+        <li>- Disponibilidad de auto (asegúrate que los cupos sean compatibles con los asientos del auto)</li>
+        <li>- Lugar de salida</li>
+        <li>- Lugar de llegada</li>
+        <li>- Comuna de llegada</li>
+        <li>- Mapa indicando la ruta del viaje</li>
+      </ul>
+      <p>Una vez creado el post, podrás:</p>
+      <ul>
+        <li>- Ver el mapa de la ruta dando clic en "Ver mapa"</li>
+        <li>- Editar el viaje haciendo clic en "Editar"</li>
+        <li>- Eliminar el viaje haciendo clic en "Eliminar"</li>
+      </ul>
+      <p>Nota: Al crear un viaje, se creará automáticamente un Chat para comunicarte con las personas inscritas.</p>
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia8.png'), alt: "Descripción de la imagen", style: "width: 80%; height: auto;border: 1px solid black") %>
+      </div>
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia7.png'), alt: "Descripción de la imagen", style: "width: 80%; height: auto;border: 1px solid black") %>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Chats</h2>
+    <div class="box guia">
+      <p>Para ver los chats, haz clic en el botón "Chats" en la barra de navegación.</p>
+      <p>A la izquierda, verás todos los chats de los posts que has creado o en los que te has suscrito.</p>
+      <p>Nota: El número de chat coincide con el número de ID de la publicación.</p>
+      <p>Para entrar a un chat, haz clic en "Entrar al chat".</p>
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia9.png'), alt: "Descripción de la imagen", style: "width: 80%; height: auto;border: 1px solid black") %>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Notificaciones</h2>
+    <div class="box guia">
+      <p>Recibirás notificaciones por nuevos mensajes, modificaciones en tu perfil o viajes realizados.</p>
+      <p>El número junto al botón "Notificaciones" indica la cantidad de notificaciones sin leer.</p>
+      <div class="image-container has-text-centered" style="margin-top: 2%">
+        <%= image_tag(asset_path('guia10.png'), alt: "Descripción de la imagen", style: "width: 80%; height: auto;border: 1px solid black") %>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title is-size-4" style="margin-top: 4%">• Cerrar Sesión</h2>
+    <div class="box guia">
+      <p>Una vez que desees cerrar sesión, podrás hacer en la parte superior de la página web, en el botón de “Cerrar Sesión”.</p>
+    </div>
+  </section>

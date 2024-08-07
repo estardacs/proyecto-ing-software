@@ -1,0 +1,11 @@
+development:
+  cloud_name: dwc6wxzja
+  api_key: 237668562133819
+  api_secret: UM5QxPVUSwPB7qVMwkfsaMIQsp0
+  secure: true
+
+production:
+  cloud_name: dwc6wxzja
+  api_key: 237668562133819
+  api_secret: UM5QxPVUSwPB7qVMwkfsaMIQsp0
+  secure: true

@@ -1,0 +1,59 @@
+<nav class="navbar is-fixed-top has-text-white" role="navigation" aria-label="main navigation" style="background-color: rgba(0,0,0,0);">
+  <div class="container" style="width: 100%; max-width: 100%; margin: 0 auto; display: flex; align-items: center;">
+    <div class="navbar-start" style="display: flex; align-items: center; margin-top: 0.5%">
+      <% if current_user.image.attached? %>
+        <div class="navbar-item">
+          <a href="<%= pages_perfil_path %>">
+            <%= image_tag(url_for(current_user.image), alt: "Foto de perfil", style: "width: 30px; height: 50px; border-radius: 50%; border: 0.5px solid black") %>
+          </a>
+        </div>
+      <% end %>
+    </div>
+    <div class="navbar-center" style="display: flex; justify-content: center; flex-grow: 1; margin-right: 3%">
+      <button id="profileButton" class="button custom-button navbar-item has-text-white" style="background-color: transparent; border: none; margin: 0 5px;">Perfil</button>
+      <button id="searchButton" class="button custom-button navbar-item has-text-white" style="background-color: transparent; border: none; margin: 0 5px;">Buscar</button>
+      <button id="reviewsButton" class="button custom-button navbar-item has-text-white" style="background-color: transparent; border: none; margin: 0 5px;">Reviews</button>
+      <button id="postsButton" class="button custom-button navbar-item has-text-white" style="background-color: transparent; border: none; margin: 0 5px;">Posts</button>
+      <button id="chatsButton" class="button custom-button navbar-item has-text-white" style="background-color: transparent; border: none; margin: 0 5px;">Chats</button>
+      <button id="notificationsButton" class="button custom-button navbar-item has-text-white" style="background-color: transparent; border: none; margin: 0 5px;">
+        Notificaciones
+        <% if current_user.notifications.where(read: false).count > 0 %>
+          (<%= current_user.notifications.where(read: false).count %>)
+        <% end %>
+      </button>
+      <button id="guideButton" class="button custom-button navbar-item has-text-white" style="background-color: transparent; border: none; margin: 0 5px;">Guía de Usuario</button>
+      <%= link_to 'Cerrar Sesión', destroy_user_session_path, method: :delete, class: "button custom-button navbar-item has-text-white logout-button", style: "background-color: transparent; border: none; margin: 0 5px;" %>
+    </div>
+  </div>
+</nav>
+
+<script>
+  var profileButton = document.getElementById('profileButton');
+  profileButton.addEventListener('click', function() {
+    window.location.href = '<%= pages_perfil_path %>';
+  });
+
+  var searchButton = document.getElementById('searchButton');
+  searchButton.addEventListener('click', function() {
+    window.location.href = '<%= pages_buscar_path %>';
+  });
+
+  var reviewsButton = document.getElementById('reviewsButton');
+  reviewsButton.addEventListener('click', function() {
+    window.location.href = '<%= pages_review_path %>';
+  });
+
+  var postsButton = document.getElementById('postsButton');
+  postsButton.addEventListener('click', function() {
+    window.location.href = '<%= pages_posts_path %>';
+  });
+
+  var chatsButton = document.getElementById('chatsButton');
+  chatsButton.addEventListener('click', function() {
+    window.location.href = '<%= chats_path %>';
+  });
+  var notificationsButton = document.getElementById('notificationsButton');
+  notificationsButton.addEventListener('click', function() {
+    window.location.href = '<%= notifications_path %>';
+  });
+</script>

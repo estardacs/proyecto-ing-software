@@ -1,0 +1,42 @@
+<%= render 'layouts/navbar' %>
+
+<div class="container">
+  <div class="has-text-centered mb-6">
+    <h1 class="title has-text-primary is-size-1" style="margin-top: 60px;">Mis Posts</h1>
+    <%= link_to 'Crear nuevo post', new_post_path, class: "button is-primary" %>
+  </div>
+  
+  <div class="columns is-multiline">
+    <% if @posts.any? %>
+      <% @posts.each_slice(2) do |post_pair| %>
+        <div class="column is-half">
+          <% post_pair.each do |post| %>
+            <div class="box posts">
+              <h3 class="is-size-4"><strong>Publicado por:</strong> <%= post.user.nombre_usuario %></h3>
+              <p><strong>Preferencia de género:</strong> <%= post.pref_genero %></p>
+              <p><strong>Fecha:</strong> <%= post.fecha %></p>
+              <p><strong>Hora:</strong> <%= post.hora %></p>
+              <p><strong>Número de cupos:</strong> <%= post.cupos %></p>
+              <p><strong>Campus de salida:</strong> <%= post.campus %></p>
+              <p><strong>¿Tiene auto?:</strong> <%= post.auto ? 'Sí' : 'No' %></p>
+              <p><strong>Lugar de salida:</strong> <%= post.salida %></p>
+              <p><strong>Lugar de llegada:</strong> <%= post.llegada %></p>
+              <p><strong>Comuna de llegada:</strong> <%= post.comuna %></p>
+              <div class="buttons is-grouped" style="margin-top: 10px">
+                <%= link_to 'Ver mapa', post_path(post), class: "button is-info", style: "background-color: #4ECDFF" %>
+                <%= link_to 'Editar', edit_post_path(post), class: "button is-primary" %>
+                <%= form_with(url: post_path(post), method: :delete, data: { confirm: '¿Estás seguro de eliminar este post?' }) do |form| %>
+                  <%= form.submit 'Eliminar', class: "button is-danger", style: "background-color: #cd4e57"  %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="column">
+        <p>No tienes posts creados.</p>
+      </div>
+    <% end %>
+  </div>
+</div>

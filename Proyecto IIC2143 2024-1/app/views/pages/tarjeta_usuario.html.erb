@@ -1,0 +1,25 @@
+<%= render 'layouts/navbar' %>
+<div class="container" style="width: 830px">
+  <div class="has-text-centered mb-6">
+    <h1 class="title has-text-primary is-size-1" style="margin-top: 60px;">Dino-Tarjeta de Usuario</h1>
+    <%= render 'layouts/tarjeta', rating_promedio: @rating_promedio %>
+    <div class="mt-6">
+      <% if @chat_id.present? %>
+        <%= link_to 'Volver', chat_path(@chat_id), class: "button is-primary" %>
+      <% else %>
+        <%= link_to 'Volver', pages_perfil_path, class: "button is-primary" %>
+      <% end %>
+    </div>
+    <figure class="image animated-gif move-across-screen">
+      <% if @rating_promedio >= 0 && @rating_promedio < 2.4 %>
+        <%= image_tag(asset_path('rate1.gif'), alt: "Gif 1", style: "width: 100%; height: auto;margin-top: 25%") %>
+      <% elsif @rating_promedio >= 2.4 && @rating_promedio < 4.9 %>
+        <%= image_tag(asset_path('rate2.gif'), alt: "Gif 2", style: "width: 100%; height: auto;margin-top: 40%") %>
+      <% elsif @rating_promedio >= 5 && @rating_promedio < 7.4 %>
+        <%= image_tag(asset_path('rate3.gif'), alt: "Gif 3", style: "width: 100%; height: auto;margin-top: 64%") %>
+      <% elsif @rating_promedio >= 7.5 %>
+        <%= image_tag(asset_path('rate4.gif'), alt: "Gif 4", style: "width: 100%; height: auto;margin-top: 77%") %>
+      <% end %>
+    </figure>
+  </div>
+</div>

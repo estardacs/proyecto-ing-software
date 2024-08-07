@@ -1,0 +1,56 @@
+<%= render 'layouts/navbar' %>
+<div class="has-text-centered mb-6">
+  <h1 class="title has-text-primary is-size-1" style="margin-top: 60px;">Mapa</h1>
+</div>
+<div class="container">
+  <div class="columns">
+    <div class="column is-one-third">
+      <div class="box post">
+        <h3 class="is-size-4"><strong>Publicado por:</strong> <%= @post.user.nombre_usuario %></h3>
+        <p><strong>Preferencia de género:</strong> <%= @post.pref_genero %></p>
+        <p><strong>Fecha:</strong> <%= @post.fecha %></p>
+        <p><strong>Hora:</strong> <%= @post.hora %></p>
+        <p><strong>Número de cupos:</strong> <%= @post.cupos %></p>
+        <p><strong>Campus:</strong> <%= @post.campus %></p>
+        <p><strong>¿Tiene auto?:</strong> <%= @post.auto ? 'Sí' : 'No' %></p>
+        <p><strong>Lugar de salida:</strong> <%= @post.salida %></p>
+        <p><strong>Lugar de llegada:</strong> <%= @post.llegada %></p>
+        <p><strong>Comuna:</strong> <%= @post.comuna %></p>
+      </div>
+      
+      <%= link_to 'Volver', pages_buscar_path, class: "button is-primary", style: "margin-left: 40%" %>
+    </div>
+    
+    <div class="column is-two-thirds">
+      <div id="mapid" style="height: 600px;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var map = L.map('mapid').setView([<%= @post.salida_lat %>, <%= @post.salida_lng %>], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var markerSalida = L.marker([<%= @post.salida_lat %>, <%= @post.salida_lng %>]).bindPopup('Inicio').addTo(map);
+    var markerLlegada = L.marker([<%= @post.llegada_lat %>, <%= @post.llegada_lng %>]).bindPopup('Llegada').addTo(map);
+
+    var waypoints = [
+      markerSalida.getLatLng(),
+      markerLlegada.getLatLng()
+    ];
+
+    L.Routing.control({
+      waypoints: waypoints,
+      createMarker: function(i, wp) {
+        return false;
+      }
+    }).addTo(map);
+
+    markerSalida.openPopup();
+    markerLlegada.openPopup();
+  });
+</script>

@@ -1,0 +1,214 @@
+<%= render 'layouts/navbar' %>
+
+<h1 class="title has-text-primary is-size-1" style="margin-top: 60px; margin-left: 38%; z-index: 100;">Editar Post</h1>
+<section class="section">
+  <div class="container">
+    <%= form_with(model: @post, local: true) do |form| %>
+      <div class="columns">
+        <div class="column is-one-third">
+          <% if @post.errors.any? %>
+            <div id="error_explanation" class="notification is-danger">
+              <p class="subtitle is-6"><strong><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</strong></p>
+              <ul>
+                <% @post.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="field">
+            <%= form.label :pref_genero, "Preferencia de género", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <div class="select is-primary">
+                <%= form.select :pref_genero, ['Ninguna', 'Hombres', 'Mujeres', 'Otros'], {}, class: "select" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :fecha, "Fecha", class: "label has-text-weight-bold has-text-primary" %>
+            <%= form.date_field :fecha, class: "input", style: "width: 100%" %>
+          </div>
+
+          <div class="field">
+            <%= form.label :salida, "Lugar de salida", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.text_field :salida, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :hora, "Hora (HH:MM)", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.text_field :hora, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :cupos, "Número de cupos", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.number_field :cupos, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :campus, "Campus", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <div class="select is-primary">
+                <%= form.select :campus, ['San Joaquín', 'Casa Central', 'Lo Contador', 'Oriente', 'Villarrica'], {}, class: "select" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label has-text-weight-bold has-text-primary">¿Tiene auto?</label>
+            <div class="control">
+              <label class="radio">
+                <%= form.radio_button :auto, true %>
+                <span class="has-text-primary">Sí</span>
+              </label>
+              <label class="radio">
+                <%= form.radio_button :auto, false %>
+                <span class="has-text-primary">No</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :llegada, "Lugar de llegada", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.text_field :llegada, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :comuna, "Comuna", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <div class="select is-primary">
+                <%= form.select :comuna, ['Colina', 'Lampa', 'Til Til', 'Pirque', 'Puente Alto', 'San José de Maipo', 'Buin', 'Calera de Tango', 'Paine', 'San Bernardo', 'Alhué', 'Curacaví', 'María Pinto', 'Melipilla', 'San Pedro', 'Cerrillos', 'Cerro Navia', 'Conchalí', 'El Bosque', 'Estación Central', 'Huechuraba', 'Independencia', 'La Cisterna', 'La Granja', 'La Florida', 'La Pintana', 'La Reina', 'Las Condes', 'Lo Barnechea', 'Lo Espejo', 'Lo Prado', 'Macul', 'Maipú', 'Ñuñoa', 'Pedro Aguirre Cerda', 'Peñalolén', 'Providencia', 'Pudahuel', 'Quilicura', 'Quinta Normal', 'Recoleta', 'Renca', 'San Miguel', 'San Joaquín', 'San Ramón', 'Santiago', 'Vitacura', 'El Monte', 'Isla de Maipo', 'Padre Hurtado', 'Peñaflor', 'Talagante'], {}, class: "select" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <div class="field is-grouped" style="margin-top: 20px; margin-left: 100px;">
+              <div class="control">
+                <%= form.submit 'Actualizar post', class: "button is-primary mr-5" %>
+              </div>
+              <div class="control">
+                <%= link_to 'Volver', posts_path, class: "button is-primary" %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-two-thirds">
+          <div class="field">
+            <%= form.label :mapa, "Seleccionar ruta", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <div id="mapid" style="height: 600px; width: 100%;"></div>
+              <%= form.hidden_field :salida_lat %>
+              <%= form.hidden_field :salida_lng %>
+              <%= form.hidden_field :llegada_lat %>
+              <%= form.hidden_field :llegada_lng %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var map = L.map('mapid').setView([-33.4372, -70.6506], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var markerSalida = L.marker([<%= @post.salida_lat %>, <%= @post.salida_lng %>], { draggable: true }).bindPopup('Inicio').addTo(map);
+    var markerLlegada = L.marker([<%= @post.llegada_lat %>, <%= @post.llegada_lng %>], { draggable: true }).bindPopup('Llegada').addTo(map);
+    var routeControl = null;
+
+    function updateRoute() {
+      if (markerSalida && markerLlegada) {
+        var waypoints = [
+          markerSalida.getLatLng(),
+          markerLlegada.getLatLng()
+        ];
+
+        if (routeControl) {
+          map.removeControl(routeControl);
+        }
+
+        routeControl = L.Routing.control({
+          waypoints: waypoints,
+          routeWhileDragging: true,
+          createMarker: function(i, wp) {
+            return false;
+          }
+        }).addTo(map);
+      }
+    }
+
+    function updateLugarSalida(latlng) {
+      var xhr = new XMLHttpRequest();
+      var url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + latlng.lat + '&lon=' + latlng.lng;
+      xhr.open('GET', url, true);
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          var result = JSON.parse(xhr.responseText);
+          if (result.display_name) {
+            var displayName = result.display_name;
+            var parts = displayName.split(', ');
+            var shortenedName = parts.slice(0, -5).join(', ');
+            document.getElementById('post_salida').value = shortenedName;
+          }
+        }
+      };
+      xhr.send();
+    }
+
+    function updateLugarLlegada(latlng) {
+      var xhr = new XMLHttpRequest();
+      var url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + latlng.lat + '&lon=' + latlng.lng;
+      xhr.open('GET', url, true);
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          var result = JSON.parse(xhr.responseText);
+          if (result.display_name) {
+            var displayName = result.display_name;
+            var parts = displayName.split(', ');
+            var shortenedName = parts.slice(0, -5).join(', ');
+            document.getElementById('post_llegada').value = shortenedName;
+          }
+        }
+      };
+      xhr.send();
+    }
+
+    markerSalida.on('dragend', function() {
+      var latlng = markerSalida.getLatLng();
+      document.getElementById('post_salida_lat').value = latlng.lat;
+      document.getElementById('post_salida_lng').value = latlng.lng;
+      updateLugarSalida(latlng);
+      updateRoute();
+    });
+
+    markerLlegada.on('dragend', function() {
+      var latlng = markerLlegada.getLatLng();
+      document.getElementById('post_llegada_lat').value = latlng.lat;
+      document.getElementById('post_llegada_lng').value = latlng.lng;
+      updateLugarLlegada(latlng);
+      updateRoute();
+    });
+
+    updateRoute();
+    markerSalida.openPopup();
+    markerLlegada.openPopup();
+    updateLugarSalida(markerSalida.getLatLng());
+    updateLugarLlegada(markerLlegada.getLatLng());
+  });
+</script>

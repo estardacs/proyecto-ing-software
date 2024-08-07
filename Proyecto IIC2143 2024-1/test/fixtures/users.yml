@@ -1,0 +1,87 @@
+one:
+  email: user1@uc.cl
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "12345677"
+  nombre_usuario: "testuser1"
+  genero: "Hombre"
+  descripcion: "Descripción del usuario 1"
+
+two:
+  email: user2@uc.cl
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "65432100"
+  nombre_usuario: "testuser2"
+  genero: "Mujer"
+  descripcion: "Descripción del usuario 2"
+
+tree:
+  email: gdahdaj@uc.cl
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "33334440"
+  nombre_usuario: "Nombre del usuario"
+  genero: "Hombre"
+  descripcion: ""
+
+four: 
+  email: pipkapi@uc.cl
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "2222233j"
+  nombre_usuario: "Pika Chu"
+  genero: "POKEMON"
+  descripcion: ""
+
+five: 
+  email: i@uc.cl
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "2222243"
+  nombre_usuario: "Pika Chu"
+  genero: "Hombre"
+  descripcion: ""
+
+six: 
+  email: pipkuser2api@gmail.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "22252330"
+  nombre_usuario: "Pika Chu"
+  genero: "Hombre"
+  descripcion: ""
+
+seven: 
+  email: user3@uc.cl
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "1"
+  nombre_usuario: "Pika Chu"
+  genero: "Hombre"
+  descripcion: ""
+
+eight: 
+  email: user4@uc.cl
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "14624637h77"
+  nombre_usuario: "Pika Chu"
+  genero: "Hombre"
+  descripcion: ""
+
+nine: 
+  email: user9@uc.cl
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "12345670"
+  nombre_usuario: "Pika Chu"
+  genero: ""
+  descripcion: ""
+
+ten: 
+  email: "kjgfhadgfhagf"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "12345600"
+  nombre_usuario: "Pika Chu"
+  genero: "Mujer"
+  descripcion: "djkasgfjasghas"
+
+eleven:
+  email: user11@uc.cl
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  n_tuc: "12345670"
+  nombre_usuario: "fhjafiwgf hf  ahf oU DGOU fouAH F"
+  genero: "Hombre"
+  descripcion: "DesFWEGWEGFWJEHGUWQ  EHFEWUHFE 9"

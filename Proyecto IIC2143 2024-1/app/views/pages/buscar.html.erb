@@ -1,0 +1,294 @@
+<%= render 'layouts/navbar' %>
+
+<div class="container">
+  <div class="has-text-centered mb-6">
+    <h1 class="title has-text-primary is-size-1" style="margin-top: 60px;">Posts Disponibles</h1>
+  </div>
+
+  <style>
+    .dropdown.is-hoverable .dropdown-trigger:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .gif-container {
+      position: relative;
+      height: 0px; /* Ajusta la altura según sea necesario */
+    }
+    
+    .gif-circle-top-right {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid black;
+    }
+    
+    .gif-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+
+  <div class="columns is-centered">
+
+
+
+
+    <div class="column is-narrow">
+      <div style="position: relative; top: 35%;">
+        <span class="title is-4 has-text-weight-bold has-text-primary">Filtros:</span>
+      </div>
+    </div>
+    <%= form_tag(pages_buscar_path, method: :get, class: "columns is-centered") do %>
+      <div class="column is-narrow">
+        <div style="position: relative; top: -5%;">
+          <span class="title is-6 has-text-weight-bold has-text-primary">Tipo de Viaje</span>
+        </div>
+        <div class="dropdown is-hoverable">
+          <div class="dropdown-trigger">
+            <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu-tipo-viaje">
+              <span style="padding-left: 15px;"><%= params[:tipo_viaje].present? ? params[:tipo_viaje] : 'Todos' %></span>
+              <span class="icon">
+                <i class="fas fa-angle-down has-text-black"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu-tipo-viaje" role="menu">
+            <div class="dropdown-content">
+              <%= link_to 'Todos', pages_buscar_path(tipo_viaje: ''), class: "dropdown-item #{'is-active' if params[:tipo_viaje].blank?}" %>
+              <%= link_to 'Viajes creados por ti', pages_buscar_path(tipo_viaje: 'Creados'), class: "dropdown-item #{'is-active' if params[:tipo_viaje] == 'Creados'}" %>
+              <%= link_to 'Viajes suscritos', pages_buscar_path(tipo_viaje: 'Suscritos'), class: "dropdown-item #{'is-active' if params[:tipo_viaje] == 'Suscritos'}" %>
+              <%= link_to 'Viajes no suscritos', pages_buscar_path(tipo_viaje: 'No Suscritos'), class: "dropdown-item #{'is-active' if params[:tipo_viaje] == 'No Suscritos'}" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-narrow">
+      <div style="position: relative; top: -5%;">
+        <span class="title is-6 has-text-weight-bold has-text-primary">¿Tiene auto?</span>
+      </div>
+        <div class="dropdown is-hoverable">
+          <div class="dropdown-trigger">
+            <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu-auto">
+              <span style="padding-left: 15px;"><%= params[:auto] == '1' ? 'Sí' : (params[:auto] == '0' ? 'No' : 'Todos') %></span>
+              <span class="icon">
+                <i class="fas fa-angle-down has-text-black"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu-auto" role="menu">
+            <div class="dropdown-content">
+              <%= link_to 'Todos', pages_buscar_path(auto: ''), class: "dropdown-item #{'is-active' if params[:auto].blank?}" %>
+              <%= link_to 'Sí', pages_buscar_path(auto: '1'), class: "dropdown-item #{'is-active' if params[:auto] == '1'}" %>
+              <%= link_to 'No', pages_buscar_path(auto: '0'), class: "dropdown-item #{'is-active' if params[:auto] == '0'}" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-narrow">
+      <div style="position: relative; top: -5%;">
+        <span class="title is-6 has-text-weight-bold has-text-primary">Comuna</span>
+      </div>
+        <div class="dropdown is-hoverable">
+          <div class="dropdown-trigger">
+            <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu-comuna">
+              <span style="padding-left: 15px;"><%= params[:comuna].present? ? params[:comuna] : 'Todas' %></span>
+              <span class="icon">
+                <i class="fas fa-angle-down has-text-black"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu-comuna" role="menu">
+            <div class="dropdown-content">
+              <%= link_to 'Todas', pages_buscar_path(comuna: ''), class: "dropdown-item #{'is-active' if params[:comuna].blank?}" %>
+              <%= link_to 'Colina', pages_buscar_path(comuna: 'Colina'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Colina'}" %>
+              <%= link_to 'Lampa', pages_buscar_path(comuna: 'Lampa'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Lampa'}" %>
+              <%= link_to 'Til Til', pages_buscar_path(comuna: 'Til Til'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Til Til'}" %>
+              <%= link_to 'Pirque', pages_buscar_path(comuna: 'Pirque'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Pirque'}" %>
+              <%= link_to 'Puente Alto', pages_buscar_path(comuna: 'Puente Alto'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Puente Alto'}" %>
+              <%= link_to 'San José de Maipo', pages_buscar_path(comuna: 'San José de Maipo'), class: "dropdown-item #{'is-active' if params[:comuna] == 'San José de Maipo'}" %>
+              <%= link_to 'Buin', pages_buscar_path(comuna: 'Buin'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Buin'}" %>
+              <%= link_to 'Calera de Tango', pages_buscar_path(comuna: 'Calera de Tango'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Calera de Tango'}" %>
+              <%= link_to 'Paine', pages_buscar_path(comuna: 'Paine'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Paine'}" %>
+              <%= link_to 'San Bernardo', pages_buscar_path(comuna: 'San Bernardo'), class: "dropdown-item #{'is-active' if params[:comuna] == 'San Bernardo'}" %>
+              <%= link_to 'Alhué', pages_buscar_path(comuna: 'Alhué'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Alhué'}" %>
+              <%= link_to 'Curacaví', pages_buscar_path(comuna: 'Curacaví'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Curacaví'}" %>
+              <%= link_to 'María Pinto', pages_buscar_path(comuna: 'María Pinto'), class: "dropdown-item #{'is-active' if params[:comuna] == 'María Pinto'}" %>
+              <%= link_to 'Melipilla', pages_buscar_path(comuna: 'Melipilla'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Melipilla'}" %>
+              <%= link_to 'San Pedro', pages_buscar_path(comuna: 'San Pedro'), class: "dropdown-item #{'is-active' if params[:comuna] == 'San Pedro'}" %>
+              <%= link_to 'Cerrillos', pages_buscar_path(comuna: 'Cerrillos'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Cerrillos'}" %>
+              <%= link_to 'Cerro Navia', pages_buscar_path(comuna: 'Cerro Navia'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Cerro Navia'}" %>
+              <%= link_to 'Conchalí', pages_buscar_path(comuna: 'Conchalí'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Conchalí'}" %>
+              <%= link_to 'El Bosque', pages_buscar_path(comuna: 'El Bosque'), class: "dropdown-item #{'is-active' if params[:comuna] == 'El Bosque'}" %>
+              <%= link_to 'Estación Central', pages_buscar_path(comuna: 'Estación Central'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Estación Central'}" %>
+              <%= link_to 'Huechuraba', pages_buscar_path(comuna: 'Huechuraba'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Huechuraba'}" %>
+              <%= link_to 'Independencia', pages_buscar_path(comuna: 'Independencia'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Independencia'}" %>
+              <%= link_to 'La Cisterna', pages_buscar_path(comuna: 'La Cisterna'), class: "dropdown-item #{'is-active' if params[:comuna] == 'La Cisterna'}" %>
+              <%= link_to 'La Granja', pages_buscar_path(comuna: 'La Granja'), class: "dropdown-item #{'is-active' if params[:comuna] == 'La Granja'}" %>
+              <%= link_to 'La Florida', pages_buscar_path(comuna: 'La Florida'), class: "dropdown-item #{'is-active' if params[:comuna] == 'La Florida'}" %>
+              <%= link_to 'La Pintana', pages_buscar_path(comuna: 'La Pintana'), class: "dropdown-item #{'is-active' if params[:comuna] == 'La Pintana'}" %>
+              <%= link_to 'La Reina', pages_buscar_path(comuna: 'La Reina'), class: "dropdown-item #{'is-active' if params[:comuna] == 'La Reina'}" %>
+              <%= link_to 'Las Condes', pages_buscar_path(comuna: 'Las Condes'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Las Condes'}" %>
+              <%= link_to 'Lo Barnechea', pages_buscar_path(comuna: 'Lo Barnechea'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Lo Barnechea'}" %>
+              <%= link_to 'Lo Espejo', pages_buscar_path(comuna: 'Lo Espejo'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Lo Espejo'}" %>
+              <%= link_to 'Lo Prado', pages_buscar_path(comuna: 'Lo Prado'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Lo Prado'}" %>
+              <%= link_to 'Macul', pages_buscar_path(comuna: 'Macul'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Macul'}" %>
+              <%= link_to 'Maipú', pages_buscar_path(comuna: 'Maipú'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Maipú'}" %>
+              <%= link_to 'Ñuñoa', pages_buscar_path(comuna: 'Ñuñoa'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Ñuñoa'}" %>
+              <%= link_to 'Pedro Aguirre Cerda', pages_buscar_path(comuna: 'Pedro Aguirre Cerda'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Pedro Aguirre Cerda'}" %>
+              <%= link_to 'Peñalolén', pages_buscar_path(comuna: 'Peñalolén'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Peñalolén'}" %>
+              <%= link_to 'Providencia', pages_buscar_path(comuna: 'Providencia'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Providencia'}" %>
+              <%= link_to 'Pudahuel', pages_buscar_path(comuna: 'Pudahuel'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Pudahuel'}" %>
+              <%= link_to 'Quilicura', pages_buscar_path(comuna: 'Quilicura'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Quilicura'}" %>
+              <%= link_to 'Quinta Normal', pages_buscar_path(comuna: 'Quinta Normal'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Quinta Normal'}" %>
+              <%= link_to 'Recoleta', pages_buscar_path(comuna: 'Recoleta'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Recoleta'}" %>
+              <%= link_to 'Renca', pages_buscar_path(comuna: 'Renca'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Renca'}" %>
+              <%= link_to 'San Miguel', pages_buscar_path(comuna: 'San Miguel'), class: "dropdown-item #{'is-active' if params[:comuna] == 'San Miguel'}" %>
+              <%= link_to 'San Joaquín', pages_buscar_path(comuna: 'San Joaquín'), class: "dropdown-item #{'is-active' if params[:comuna] == 'San Joaquín'}" %>
+              <%= link_to 'San Ramón', pages_buscar_path(comuna: 'San Ramón'), class: "dropdown-item #{'is-active' if params[:comuna] == 'San Ramón'}" %>
+              <%= link_to 'Santiago', pages_buscar_path(comuna: 'Santiago'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Santiago'}" %>
+              <%= link_to 'Vitacura', pages_buscar_path(comuna: 'Vitacura'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Vitacura'}" %>
+              <%= link_to 'El Monte', pages_buscar_path(comuna: 'El Monte'), class: "dropdown-item #{'is-active' if params[:comuna] == 'El Monte'}" %>
+              <%= link_to 'Isla de Maipo', pages_buscar_path(comuna: 'Isla de Maipo'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Isla de Maipo'}" %>
+              <%= link_to 'Padre Hurtado', pages_buscar_path(comuna: 'Padre Hurtado'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Padre Hurtado'}" %>
+              <%= link_to 'Peñaflor', pages_buscar_path(comuna: 'Peñaflor'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Peñaflor'}" %>
+              <%= link_to 'Talagante', pages_buscar_path(comuna: 'Talagante'), class: "dropdown-item #{'is-active' if params[:comuna] == 'Talagante'}" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-narrow">
+      <div style="position: relative; top: -5%;">
+        <span class="title is-6 has-text-weight-bold has-text-primary">Género</span>
+      </div>
+        <div class="dropdown is-hoverable">
+          <div class="dropdown-trigger">
+            <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu-pref-genero">
+              <span style="padding-left: 15px;"><%= params[:pref_genero].present? ? params[:pref_genero] : 'Todos' %></span>
+              <span class="icon">
+                <i class="fas fa-angle-down has-text-black"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu-pref-genero" role="menu">
+            <div class="dropdown-content">
+              <%= link_to 'Todos', pages_buscar_path(pref_genero: ''), class: "dropdown-item #{'is-active' if params[:pref_genero].blank?}" %>
+              <%= link_to 'Ninguna', pages_buscar_path(pref_genero: 'Ninguna'), class: "dropdown-item #{'is-active' if params[:pref_genero] == 'Ninguna'}" %>
+              <%= link_to 'Hombres', pages_buscar_path(pref_genero: 'Hombres'), class: "dropdown-item #{'is-active' if params[:pref_genero] == 'Hombres'}" %>
+              <%= link_to 'Mujeres', pages_buscar_path(pref_genero: 'Mujeres'), class: "dropdown-item #{'is-active' if params[:pref_genero] == 'Mujeres'}" %>
+              <%= link_to 'Otros', pages_buscar_path(pref_genero: 'Otros'), class: "dropdown-item #{'is-active' if params[:pref_genero] == 'Otros'}" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="column is-narrow">
+      <div style="position: relative; top: -5%;">
+        <span class="title is-6 has-text-weight-bold has-text-primary">Campus</span>
+      </div>
+        <div class="dropdown is-hoverable">
+          <div class="dropdown-trigger">
+            <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu-campus">
+              <span style="padding-left: 15px;"><%= params[:campus].present? ? params[:campus] : 'Todos' %></span>
+              <span class="icon">
+                <i class="fas fa-angle-down has-text-black"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu-campus" role="menu">
+            <div class="dropdown-content">
+              <%= link_to 'Todos', pages_buscar_path(campus: ''), class: "dropdown-item #{'is-active' if params[:campus].blank?}" %>
+              <%= link_to 'San Joaquín', pages_buscar_path(campus: 'San Joaquín'), class: "dropdown-item #{'is-active' if params[:campus] == 'San Joaquín'}" %>
+              <%= link_to 'Casa Central', pages_buscar_path(campus: 'Casa Central'), class: "dropdown-item #{'is-active' if params[:campus] == 'Casa Central'}" %>
+              <%= link_to 'Lo Contador', pages_buscar_path(campus: 'Lo Contador'), class: "dropdown-item #{'is-active' if params[:campus] == 'Lo Contador'}" %>
+              <%= link_to 'Oriente', pages_buscar_path(campus: 'Oriente'), class: "dropdown-item #{'is-active' if params[:campus] == 'Oriente'}" %>
+              <%= link_to 'Villarrica', pages_buscar_path(campus: 'Villarrica'), class: "dropdown-item #{'is-active' if params[:campus] == 'Villarrica'}" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-narrow">
+      <div style="position: relative; top: -5%;">
+        <span class="title is-6 has-text-weight-bold has-text-primary">Fecha</span>
+      </div>
+        <div class="field">
+          <div class="control">
+            <%= date_field_tag :fecha, params[:fecha], class: "input"%>
+          </div>
+        </div>
+      </div>
+
+      <%= submit_tag "Buscar", class: "button is-primary custom-search-button", style: "margin-top: 3.75%"%>
+    <% end %>
+  </div>
+
+  <div class="columns is-multiline mt-6">
+  <% if @posts.any? %>
+    <% @posts.each_slice(2) do |post_pair| %>
+      <div class="column is-half">
+        <% post_pair.each do |post| %>
+          <div class="box viaje">
+            <div class="gif-container">
+              <% if post.auto %>
+                <div class="gif-circle-top-right" style="border: 1px solid black">
+                  <%= image_tag 'dino_manejando.gif', class: 'gif-image' %>
+                </div>
+              <% else %>
+                <div class="gif-circle-top-right" style="border: 1px solid black">
+                  <%= image_tag 'walking.gif', class: 'gif-image' %>
+                </div>
+              <% end %>
+            </div>
+            <h3 class="is-size-4 mb-2"><strong>Publicado por:</strong> <%= post.user.nombre_usuario %></h3>
+            <p class="mb-2"><strong>ID de publicación:</strong> <%= post.id %></p>
+            <p class="mb-2"><strong>¿Tiene auto?:</strong> <%= post.auto ? 'Sí' : 'No' %></p>
+            <p class="mb-2"><strong>Fecha:</strong> <%= post.fecha %></p>
+            <p class="mb-2"><strong>Hora:</strong> <%= post.hora %></p>
+            <p class="mb-2"><strong>Campus de salida:</strong> <%= post.campus %></p>
+            <p class="mb-2"><strong>Lugar de salida:</strong> <%= post.salida %></p>
+            <p class="mb-2"><strong>Lugar de llegada:</strong> <%= post.llegada %></p>
+            <p class="mb-2"><strong>Comuna de llegada:</strong> <%= post.comuna %></p>
+            <p class="mb-2"><strong>Cupos Disponibles:</strong> <%= post.cupos %></p>
+            <div class="buttons is-grouped" style="margin-top: 10px">
+              <%= link_to 'Ver mapa', post_path(post), class: "button is-info" , style: "background-color: #4ECDFF" %>
+              <% if current_user.trips.exists?(post_id: post.id) %>
+                <%= form_with(url: unsubscribe_post_path(post), method: :delete, data: { confirm: '¿Estás seguro de que deseas botar este viaje?' }) do |form| %>
+                  <%= form.submit 'Botar viaje', class: "button is-danger", style: "background-color: #cd4e57"  %>
+                <% end %>
+                <p class="mb-2">Ya estás suscrito a este post.</p>
+              <% else %>
+                <%= form_with(url: subscribe_post_path(post), method: :post) do |form| %>
+                  <%= form.hidden_field :post_id, value: post.id %>
+                  <%= form.submit 'Suscribirme', class: "button is-primary" %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="column">
+      <p>No hay posts disponibles.</p>
+    </div>
+  <% end %>
+</div>

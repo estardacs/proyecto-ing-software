@@ -1,0 +1,39 @@
+<div class="box" style="width: 105%; height: 500px; position: relative; display: flex; flex-direction: column; align-items: center; background-image: url('<%= asset_path('dinotarjeta.jpg') %>'); background-size: cover; background-position: center; font-family: 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif';">
+  <% if @user.image.attached? %>
+    <figure class="image is-256x256" style="margin-top: 20px; margin-right: 66%;border: px solid black">
+      <div class="is-rounded" style="width: 256px; height: 256px; overflow: hidden; border-radius: 50%; border: 2px solid white;">
+        <%= image_tag(url_for(@user.image), alt: "Foto de perfil", style: "object-fit: cover; width: 100%; height: 100%;") %>
+      </div>
+    </figure>
+  <% end %>
+  <div style="width: 100%;">
+    <div class="user-info-container">
+      <div style="position: absolute; top: 350px; left: 570px; width: 300px;">
+        <p class="subtitle user-name" style="color: #000000; font-weight: bold; font-size: 40px; word-wrap: break-word;"><%= @user.nombre_usuario %></p>
+      </div>
+    </div>
+    <div class="field" style="position: absolute; top: 130px; left: 200px; width: 400px; height: auto;">
+      <p class="subtitle is-size-6" style="color: #ffffff; font-weight: bold; display: inline;">N° de Alumno:</p>
+      <p class="subtitle is-size-6" style="color: #ffffff; font-weight: bold; display: inline;"><%= @user.n_tuc %></p>
+    </div>
+    <div class="field" style="position: absolute; top: 450px; left: 570px; width: 300px;">
+    <p class="subtitle user-name" style="color: #000000; font-weight: bold; font-size: 20px; word-wrap: break-word;"><%= @user.email %></p>
+    </div>
+    <div class="gender-container" style="position: absolute; top: 160px; left: 310px; width: 400px; height: auto;">
+      <div class="gender-label">
+        <p class="subtitle is-size-6" style="color: #ffffff; font-weight: bold; display: inline;">Género:</p>
+      </div>
+      <div class="gender-value">
+        <p class="subtitle is-size-6" style="color: #ffffff; font-weight: bold; display: inline;"><%= @user.genero %></p>
+      </div>
+    </div>
+    <div class="field" style="position: absolute; top: 190px; left: 190px; width: 400px; height: auto;">
+      <p class="subtitle is-size-6" style="color: #ffffff; font-weight: bold; display: inline;">Rating promedio:</p>
+      <p class="subtitle is-size-6" style="color: #ffffff; font-weight: bold; display: inline;"><%= rating_promedio %></p>
+    </div>
+    <div class="field" style="position: absolute; top: 340px; left: 70px; width: 400px; height: auto;">
+      <p class="subtitle is-size-6" style="color: #ffffff; font-weight: bold; display: inline;">Descripción:</p>
+      <p class="subtitle is-size-6" style="color: #ffffff; font-weight: bold; display: inline;"><%= @user.descripcion %></p>
+    </div>
+  </div>
+</div>

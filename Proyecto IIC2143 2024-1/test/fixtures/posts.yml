@@ -1,0 +1,28 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+one:
+  user: one
+  id_publicacion: "post1"
+  vigente: true
+  pref_genero: "Masculino"
+  fecha: "2024-05-21"
+  salida: "Salida 1"
+  hora: "10:00"
+  cupos: 2
+  campus: "Campus 1"
+  auto: true
+  llegada: "Llegada 1"
+  comuna: "Comuna 1"
+
+two:
+  user: one
+  id_publicacion: "post2"
+  vigente: false
+  pref_genero: "Femenino"
+  fecha: "2024-05-22"
+  salida: "Salida 2"
+  hora: "11:00"
+  cupos: 0
+  campus: "Campus 2"
+  auto: false
+  llegada: "Llegada 2"
+  comuna: "Comuna 2"

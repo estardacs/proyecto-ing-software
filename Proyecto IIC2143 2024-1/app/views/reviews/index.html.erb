@@ -1,0 +1,101 @@
+<%= render 'layouts/navbar' %>
+<div class="has-text-centered mb-6">
+  <h1 class="title has-text-primary is-size-1" style="margin-top: 60px;">Reviews</h1>
+</div>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-one-third" style="margin-top: 10%">
+        <%= form_with(url: reviews_path, method: :get, local: true) do |form| %>
+          <div class="field">
+            <%= form.label :nombre_usuario, "Nombre de Usuario", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.text_field :nombre_usuario, class: "input" %>
+            </div>
+          </div>
+
+          <div class="actions">
+            <%= form.submit "Buscar", class: "button is-primary" %>
+          </div>
+
+          <%= link_to 'Crear nueva review', new_review_path, class: "button is-primary", style: "margin-top: 1rem;" %>
+        <% end %>
+
+        <div class="reviews-container" style="max-height: 50vh; overflow-y: auto; margin-top: 15px">
+          <% if params[:nombre_usuario].present? %>
+            <% if @reviewed_user.present? %>
+              <% if @reviews.any? %>
+                <% @reviews.each do |review| %>
+                  <div class="box review-box">
+                    <article class="media">
+                      <div class="media-content">
+                        <div class="content">
+                          <p>
+                            <strong>Comentario:</strong> <%= review.comentario %><br>
+                            <strong>Rating:</strong> <%= review.rating %><br>
+                            <strong>Autor:</strong> <%= review.reviewer.nombre_usuario %><br>
+                            <small><strong>Fecha:</strong> <%= review.created_at.strftime("%d/%m/%Y") %></small>
+                          </p>
+                        </div>
+                        <% if current_user == review.reviewer %>
+                          <nav class="level is-mobile">
+                            <div class="level-left">
+                              <%= link_to 'Editar', edit_review_path(review), class: "button is-primary" %>
+                              <%= form_with(url: review_path(review), method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar esta review?' }) do |form| %>
+                                <%= form.submit 'Eliminar', class: "level-item button is-danger", style: "background-color: #cd4e57"  %>
+                              <% end %>
+                            </div>
+                          </nav>
+                        <% end %>
+                      </div>
+                    </article>
+                  </div>
+                <% end %>
+              <% else %>
+                <p class="notification is-info">No se encontraron reviews para este usuario.</p>
+              <% end %>
+            <% else %>
+              <p class="notification is-danger">El usuario no está registrado.</p>
+            <% end %>
+          <% else %>
+            <% if @reviews.any? %>
+              <% @reviews.each do |review| %>
+                <div class="box review-box">
+                  <article class="media">
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>Comentario:</strong> <%= review.comentario %><br>
+                          <strong>Rating:</strong> <%= review.rating %><br>
+                          <strong>Autor:</strong> <%= review.reviewer.nombre_usuario %><br>
+                          <small><strong>Fecha:</strong> <%= review.created_at.strftime("%d/%m/%Y") %></small>
+                        </p>
+                      </div>
+                      <% if current_user == review.reviewer %>
+                        <nav class="level is-mobile">
+                          <div class="level-left">
+                            <%= link_to 'Editar', edit_review_path(review), class: "button is-primary" %>
+                            <%= form_with(url: review_path(review), method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar esta review?' }) do |form| %>
+                              <%= form.submit 'Eliminar', class: "level-item button is-danger" %>
+                            <% end %>
+                          </div>
+                        </nav>
+                      <% end %>
+                    </div>
+                  </article>
+                </div>
+              <% end %>
+            <% else %>
+              <p class="notification is-info">Ingresa un nombre de usuario</p>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="column is-two-thirds">
+        <figure class="image is-16by9" style="margin-top: 5%; margin-left: 20%;">
+          <%= image_tag(asset_path('review.gif'), alt: "Descripción de la imagen", style: "width: 100%; height: auto;border: 1px solid black") %>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+<%= render 'layouts/navbar' %>
+<div class="has-text-centered mb-6">
+  <h1 class="title has-text-primary is-size-1" style="margin-top: 60px;">Nueva Review</h1>
+</div>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-one-third" style="margin-top: 6%">
+        <%= form_with(model: @review, local: true) do |form| %>
+          <% if @review.errors.any? %>
+            <div class="notification is-danger">
+              <h2><%= pluralize(@review.errors.count, "error") %> impidieron que esta review se guardara:</h2>
+              <ul>
+                <% @review.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="field">
+            <%= form.label :reviewed_user_nombre_usuario, "Nombre de Usuario a Revisar", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.text_field :reviewed_user_nombre_usuario, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :comentario, class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.text_area :comentario, class: "textarea" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= form.label :rating, "Rating (1-10)", class: "label has-text-weight-bold has-text-primary" %>
+            <div class="control">
+              <%= form.number_field :rating, min: 1, max: 10, step: 1, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field is-grouped" style="margin-left: 22%">
+            <div class="control">
+              <%= form.submit "Crear Review", class: "button is-primary" %>
+            </div>
+            <div class="control">
+              <%= link_to 'Volver', reviews_path, class: "button is-primary" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="column is-two-thirds">
+      <figure class="image is-16by9" style="margin-top: 5%; margin-left: 20%;">
+        <%= image_tag(asset_path('nueva_review.jpg'), alt: "Descripción de la imagen", style: "width: 100%; height: auto;border: 1px solid black") %>
+      </figure>
+      </div>
+    </div>
+  </div>
+</section>

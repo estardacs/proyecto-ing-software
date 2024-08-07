@@ -1,0 +1,34 @@
+<%= render 'layouts/navbar' %>
+
+<h1>Resultados de Búsqueda</h1>
+
+<% if @reviewed_user.present? %>
+  <h2>Reviews de <%= @reviewed_user.nombre_usuario %> (Rating promedio: <%= @reviewed_user.reviews_received.average(:rating).to_f.round(1) %>)</h2>
+  
+  <% if @reviews.present? %>
+    <ul>
+      <% @reviews.each do |review| %>
+        <li>
+          <strong>Comentario:</strong> <%= review.comentario %><br>
+          <strong>Rating:</strong> <%= review.rating %><br>
+          <strong>Autor:</strong> <%= review.reviewer.nombre_usuario %><br>
+          <strong>Fecha:</strong> <%= review.created_at.strftime("%d/%m/%Y") %>
+          <% if current_user == review.reviewer %>
+            <p>
+              <%= link_to 'Editar', edit_review_path(review) %> |
+              <%= form_with(url: review_path(review), method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar esta review?' }) do |form| %>
+                <%= form.submit 'Eliminar', class: "button is-danger", style: "background-color: #cd4e57" %>
+              <% end %>
+            </p>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No se encontraron reviews para este usuario.</p>
+  <% end %>
+<% else %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<%= link_to 'Volver', reviews_path %>

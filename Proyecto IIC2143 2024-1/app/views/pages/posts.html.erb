@@ -1,0 +1,35 @@
+<%= render 'layouts/navbar' %>
+
+<h1>Publicaciones</h1>
+
+<%= link_to 'Ver todas las publicaciones', posts_path %>
+<%= link_to 'Crear nueva publicación', new_post_path %>
+
+<!-- Barra de navegación -->
+  <nav>
+    <ul>
+      <li><button id="profileButton">Perfil</button></li>
+      <li><button id="searchButton">Buscar</button></li>
+      <li><button id="reviewsButton">Reviews</button></li>
+      <li><button id="postsButton">Posts</button></li>
+    </ul>
+  </nav>
+
+  <script>
+    var profileButton = document.getElementById('profileButton');
+    profileButton.addEventListener('click', function() {
+      window.location.href = '<%= pages_perfil_path %>';
+    })
+    var searchButton = document.getElementById('searchButton');
+    searchButton.addEventListener('click', function() {
+        window.location.href = '<%= pages_buscar_path %>';
+    });
+    var reviewsButton = document.getElementById('reviewsButton');
+    reviewsButton.addEventListener('click', function() {
+      window.location.href = '<%= pages_review_path %>';
+    })
+    var postshButton = document.getElementById('postsButton');
+    postsButton.addEventListener('click', function() {
+        window.location.href = '<%= pages_posts_path %>';
+    });
+  </script>

@@ -1,0 +1,47 @@
+<%= render 'layouts/navbar' %>
+<div class="has-text-centered mb-6">
+  <h1 class="title has-text-primary is-size-1" style="margin-top: 60px;">Chats</h1>
+</div>
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-one-half">
+      <div class="container chat-container" style="max-height: 70%; overflow-y: auto; overflow-x: hidden;background-color: #1f4858">
+        <% if @chats.any? %>
+          <% @chats.each_slice(2) do |chat_pair| %>
+            <div class="columns is-multiline mt-6">
+              <% chat_pair.each do |chat| %>
+                <div class="column is-half">
+                  <div class="box-chat">
+                    <h3 class="is-size-4 mb-2"><strong>Chat :</strong> <%= chat.id %></h3>
+                    <%= link_to 'Entrar al chat', chat_path(chat), class: 'button is-primary' %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="column">
+            <p>No tienes chats disponibles.</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="column is-two-thirds">
+      <figure class="image is-16by9" style="margin-top: 5%; margin-left: 20%;">
+        <%= image_tag(asset_path('dinochats.gif'), alt: "Descripción de la imagen", style: "width: 100%; height: auto;border: 1px solid black") %>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<style>
+  .columns.is-multiline {
+    justify-content: center;
+  }
+
+  .column.is-half {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

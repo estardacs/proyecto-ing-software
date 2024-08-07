@@ -1,0 +1,197 @@
+<div class="has-text-centered" style="margin-top: 40px">
+  <h1 class="title has-text-primary is-size-1" >Registrate</h1>
+</div>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-one-third">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup-form"}) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
+
+          <div class="field">
+            <%= f.label :email, "Correo", class: "label" %>
+            <div class="control">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label :image, "Foto de Perfil", class: "label" %>
+            <div class="control">
+              <div class="has-text-centered">
+                <button id="upload-btn" class="button is-primary" type="button">Subir foto</button>
+                <span id="file-name" class="file-name"></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="has-text-centered" style="margin-bottom: 20px">
+            <div class="control">
+              <img id="preview-image" src="<%= asset_path('placeholder.png') %>" alt="Vista previa" style="width: 400px; height: 400px; object-fit: cover; border: 1px solid black;">
+            </div>
+          </div>
+
+          <%= f.file_field :image, class: "input", id: "user_image", style: "display: none;" %>
+
+          <div class="has-text-centered mb-1">
+            <div class="control">
+              <button id="toggle-photo-btn" class="button is-primary" type="button">Tomar foto</button>
+            </div>
+          </div>
+
+          <div id="camera-container" style="display: none;">
+            <video id="video" width="640" height="480" autoplay></video>
+            <div class="has-text-centered">
+              <button id="capture-btn" class="button is-primary" type="button">Capturar foto</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label :password, "Contraseña", class: "label" %>
+              <%= @minimum_password_length %> caracteres mínimo</em>
+            <div class="control">
+              <%= f.password_field :password, autocomplete: "new-password", class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label :password_confirmation, "Confirmación de contraseña", class: "label" %>
+            <div class="control">
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label :n_tuc, "Número de Alumno (TUC)", class: "label" %>
+            <div class="control">
+              <%= f.text_field :n_tuc, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label :nombre_usuario, "Nombre de Usuario", class: "label" %>
+            <div class="control">
+              <%= f.text_field :nombre_usuario, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label :genero, "Género", class: "label" %>
+            <div class="control">
+              <div class="select">
+                <%= f.select :genero, options_for_select(["Hombre", "Mujer", "Otros"]), {prompt: "Seleccione una opción"}, class: "input" %>
+              </div>
+            </div>
+          </div>
+          
+          <div class="field mt-5">
+            <div class="control">
+              <%= f.submit "Registrarse", class: "button is-primary is-fullwidth" %>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="has-text-centered mt-4">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+      <div class="column is-two-thirds">
+        <div class="centered">
+          <figure class="image" style="margin-top: 30%; margin-left: 30%;">
+            <%= image_tag(asset_path('dino_registro.gif'), alt: "Descripción de la imagen", style: "width: 80%; height: auto; border: 1px solid black;") %>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const togglePhotoBtn = document.getElementById('toggle-photo-btn');
+    const cameraContainer = document.getElementById('camera-container');
+    const videoElement = document.getElementById('video');
+    const captureBtn = document.getElementById('capture-btn');
+    const photoInput = document.getElementById('user_image');
+    const uploadBtn = document.getElementById('upload-btn');
+    const fileNameSpan = document.getElementById('file-name');
+    const previewImage = document.getElementById('preview-image');
+
+    togglePhotoBtn.addEventListener('click', function() {
+      if (cameraContainer.style.display === 'none') {
+        cameraContainer.style.display = 'block';
+        togglePhotoBtn.textContent = 'Subir foto';
+        startCamera();
+      } else {
+        cameraContainer.style.display = 'none';
+        togglePhotoBtn.textContent = 'Tomar foto';
+        stopCamera();
+      }
+    });
+
+    function startCamera() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+          videoElement.srcObject = stream;
+        })
+        .catch(function(error) {
+          console.error('Error al acceder a la cámara:', error);
+        });
+    }
+
+    function stopCamera() {
+      const stream = videoElement.srcObject;
+      if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(function(track) {
+          track.stop();
+        });
+      }
+      videoElement.srcObject = null;
+    }
+
+    captureBtn.addEventListener('click', function() {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
+      canvas.getContext('2d').drawImage(videoElement, 0, 0);
+
+      canvas.toBlob(function(blob) {
+        const file = new File([blob], 'photo.png', { type: 'image/png' });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        photoInput.files = dataTransfer.files;
+
+        // Mostrar la vista previa de la foto capturada
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        stopCamera();
+        cameraContainer.style.display = 'none';
+        togglePhotoBtn.textContent = 'Tomar foto';
+      });
+    });
+
+    uploadBtn.addEventListener('click', function() {
+      photoInput.click();
+    });
+
+    photoInput.addEventListener('change', function() {
+      const file = photoInput.files[0];
+      if (file) {
+        fileNameSpan.textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        fileNameSpan.textContent = '';
+        previewImage.src = '<%= asset_path('placeholder.png') %>';
+      }
+    });
+  });
+</script>

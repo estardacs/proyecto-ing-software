@@ -1,0 +1,50 @@
+<div class="hero is-fullheight" style="background-image: url(<%= asset_path 'dinodoom.gif' %>); background-size: cover; background-position: center;">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <% if user_signed_in? %>
+        <h1 class="title has-text-primary is-size-1" style="margin-top: -150px;">Vuelve Conmigo</h1>
+        <h2 class="subtitle has-text-grey-light is-size-3">¡Bienvenido, <%= current_user.nombre_usuario %>!</h2>
+        <%= render 'layouts/navbar2' %>
+      <% else %>
+        <h1 class="title has-text-primary is-size-1" style="margin-top: -150px;">Vuelve Conmigo</h1>
+        <h2 class="subtitle has-text-grey-light is-size-3">¡Bienvenido!</h2>
+        <div style="margin-top: 50px;">
+          <div class="has-text-centered mt-4">
+            <%= link_to 'Iniciar Sesión', new_user_session_path, class: "button is-primary is-outlined is-size-4 mr-5", style: "color: #e5f5fd" %>
+            <%= link_to 'Registrarme', new_user_registration_path, data: { turbo: false }, class: "button is-primary is-size-4" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="audio-container-1">
+    <div class="essential_audio" data-url="<%= asset_path 'dinomusic.mp3' %>"></div>
+  </div>
+</div>
+
+<script>
+  var profileButton = document.getElementById('profileButton');
+  profileButton.addEventListener('click', function() {
+    window.location.href = '<%= pages_perfil_path %>';
+  });
+
+  var searchButton = document.getElementById('searchButton');
+  searchButton.addEventListener('click', function() {
+    window.location.href = '<%= pages_buscar_path %>';
+  });
+
+  var reviewsButton = document.getElementById('reviewsButton');
+  reviewsButton.addEventListener('click', function() {
+    window.location.href = '<%= pages_review_path %>';
+  });
+
+  var postsButton = document.getElementById('postsButton');
+  postsButton.addEventListener('click', function() {
+    window.location.href = '<%= pages_posts_path %>';
+  });
+
+  var chatsButton = document.getElementById('chatsButton');
+  chatsButton.addEventListener('click', function() {
+    window.location.href = '<%= chats_path %>';
+  });
+</script>
