@@ -1,2 +1,2 @@
 # proyecto-ing-software
-Proyecto de IIC2513
+Proyecto de IIC2143
